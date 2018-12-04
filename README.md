@@ -20,3 +20,17 @@
 17 set autoindent
 18 set smartindent
 ```
+
+# for git prompt showing branch status, add the followign to your bashrc
+
+```
+function parse_git_dirty {
+  [[ $(git status --porcelain 2> /dev/null | tail -n1) != "" ]] && echo "*"
+}
+
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
+}
+
+export PS1="\[\033[36m\]\u@\h\[\033[32m\]:\w\[\033[33m\]\$(parse_git_branch)\[\033[31m\]\$(parse_git_dirty)\[\033[33m\]\[\033[00m\] $ "
+```
